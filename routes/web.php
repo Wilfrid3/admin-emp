@@ -45,7 +45,7 @@ Route::get('storage/servicesImg/{filename}', function ($filename) {
 Route::get('/dashbord', [SuperAdminController::class, 'dashbord'])->name('dashbord')->middleware('isLoggedIn');
 Route::get('/profil', [SuperAdminController::class, 'viewProfil'])->name('profil')->middleware('isLoggedIn');
 Route::get('/comptes_sp', [SuperAdminController::class, 'allComptes'])->name('comptes_sp')->middleware('isLoggedIn');
-Route::get('/compte_add', [SuperAdminController::class, 'addCompte'])->name('comptes_add')->middleware('isLoggedIn');
+Route::get('/compte_add', [SuperAdminController::class, 'addCompte'])->name('compte_add')->middleware('isLoggedIn');
 Route::post('/compte_register', [SuperAdminController::class, 'RegisterCompte'])->name('compte-register')->middleware('isLoggedIn');
 Route::get('/compte_edit/{id}', [SuperAdminController::class, 'editCompte'])->name('compte-edit')->middleware('isLoggedIn');
 Route::patch('/compte_update/{id}', [SuperAdminController::class, 'updateCompte'])->name('compte-update')->middleware('isLoggedIn');

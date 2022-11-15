@@ -37,7 +37,7 @@
                     
                     @if ($typeuser->id == 1)
                         <div class="menu-item">
-                            <a class="menu-link" href="/dashbord">
+                            <a class="menu-link" href="{{route('dashbord')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link active" href="/comptes_sp">
+                            <a class="menu-link active" href="{{route('comptes_sp')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,7 +69,7 @@
 
                     @if ($typeuser->id == 2)
                         <div class="menu-item">
-                            <a class="menu-link" href="/dashbord">
+                            <a class="menu-link" href="{{route('dashbord')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,7 +85,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link" href="/comptes_sp">
+                            <a class="menu-link" href="{{route('comptes_sp')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link active" href="/planing">
+                            <a class="menu-link" href="{{route('planing')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -114,7 +114,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link" href="/services">
+                            <a class="menu-link active" href="{{route('services')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +127,7 @@
                             </a>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link" href="/articles">
+                            <a class="menu-link" href="{{route('articles')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +142,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link" href="/rdvs">
+                            <a class="menu-link" href="{{route('rdvs')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -157,7 +157,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link" href="/commandes">
+                            <a class="menu-link" href="{{route('commandes')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -172,7 +172,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link" href="/transactions">
+                            <a class="menu-link" href="{{route('transactions')}}">
                                 <span class="menu-icon">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

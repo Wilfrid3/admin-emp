@@ -200,11 +200,11 @@
                                             </div>
                                             <div class="separator my-2"></div>
                                             <div class="menu-item px-5">
-                                                <a href="/profil" class="menu-link px-5">Mon Profil</a>
+                                                <a href="{{route('profil')}}" class="menu-link px-5">Mon Profil</a>
                                             </div>
                                             <div class="separator my-2"></div>
                                             <div class="menu-item px-5">
-                                                <a href="/logout" class="menu-link px-5">Se déconnecter</a>
+                                                <a href="{{route('logout')}}" class="menu-link px-5">Se déconnecter</a>
                                             </div>
                                         </div>
                                     </div>

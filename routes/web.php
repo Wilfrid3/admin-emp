@@ -22,11 +22,11 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [AllAuthController::class, 'login'])->middleware('alreadyLoggetIn');
-Route::get('/signup_sa', [AllAuthController::class, 'signupSa'])->middleware('alreadyLoggetIn');
+Route::get('/', [AllAuthController::class, 'login'])->name('/')->middleware('alreadyLoggetIn');
+Route::get('/signup_sa', [AllAuthController::class, 'signupSa'])->name('signup_sa')->middleware('alreadyLoggetIn');
 Route::post('/register_sa', [AllAuthController::class, 'RegisterSuperAdmin'])->name('register-sa');
 Route::post('/login_user', [AllAuthController::class, 'LoginUser'])->name('login-user');
-Route::get('/logout', [AllAuthController::class, 'logout']);
+Route::get('/logout', [AllAuthController::class, 'logout'])->name('logout');
 Route::get('storage/servicesImg/{filename}', function ($filename) {
     $path = storage_path('app/servicesImg/' . $filename);
     if (!File::exists($path)) {
@@ -42,10 +42,10 @@ Route::get('storage/servicesImg/{filename}', function ($filename) {
     return $response;
 });
 
-Route::get('/dashbord', [SuperAdminController::class, 'dashbord'])->middleware('isLoggedIn');
-Route::get('/profil', [SuperAdminController::class, 'viewProfil'])->middleware('isLoggedIn');
-Route::get('/comptes_sp', [SuperAdminController::class, 'allComptes'])->middleware('isLoggedIn');
-Route::get('/compte_add', [SuperAdminController::class, 'addCompte'])->middleware('isLoggedIn');
+Route::get('/dashbord', [SuperAdminController::class, 'dashbord'])->name('dashbord')->middleware('isLoggedIn');
+Route::get('/profil', [SuperAdminController::class, 'viewProfil'])->name('profil')->middleware('isLoggedIn');
+Route::get('/comptes_sp', [SuperAdminController::class, 'allComptes'])->name('comptes_sp')->middleware('isLoggedIn');
+Route::get('/compte_add', [SuperAdminController::class, 'addCompte'])->name('comptes_add')->middleware('isLoggedIn');
 Route::post('/compte_register', [SuperAdminController::class, 'RegisterCompte'])->name('compte-register')->middleware('isLoggedIn');
 Route::get('/compte_edit/{id}', [SuperAdminController::class, 'editCompte'])->name('compte-edit')->middleware('isLoggedIn');
 Route::patch('/compte_update/{id}', [SuperAdminController::class, 'updateCompte'])->name('compte-update')->middleware('isLoggedIn');
@@ -55,8 +55,8 @@ Route::patch('/compte_active/{id}', [SuperAdminController::class, 'activeCompte'
 Route::patch('/compte_desactive/{id}', [SuperAdminController::class, 'desactiveCompte'])->name('compte-desactive')->middleware('isLoggedIn');
 Route::delete('/compte_delete/{id}', [SuperAdminController::class, 'deleteCompte'])->name('compte-delete')->middleware('isLoggedIn');
 
-Route::get('/services', [AdminController::class, 'allServices'])->middleware('isLoggedIn');
-Route::get('/service_add', [AdminController::class, 'addService'])->middleware('isLoggedIn');
+Route::get('/services', [AdminController::class, 'allServices'])->name('services')->middleware('isLoggedIn');
+Route::get('/service_add', [AdminController::class, 'addService'])->name('service_add')->middleware('isLoggedIn');
 Route::post('/service_register', [AdminController::class, 'RegisterService'])->name('service-register')->middleware('isLoggedIn');
 Route::get('/service_edit/{id}', [AdminController::class, 'editservice'])->name('service-edit')->middleware('isLoggedIn');
 Route::patch('/service_update/{id}', [AdminController::class, 'updateService'])->name('service-update')->middleware('isLoggedIn');
@@ -72,11 +72,11 @@ Route::get('/hs_plan_serv/{id}/{idserv}', [AdminController::class, 'horairePlanS
 Route::delete('/horaire_delete/{id}', [AdminController::class, 'deleteHoraire'])->name('horaire-delete')->middleware('isLoggedIn');
 Route::post('/hm_register', [AdminController::class, 'RegisterHoraire'])->name('hm-register')->middleware('isLoggedIn');
 Route::delete('/plan_delete/{id}', [AdminController::class, 'deletePlan'])->name('plan-delete')->middleware('isLoggedIn');
-Route::get('/planing', [AdminController::class, 'allPlaning'])->middleware('isLoggedIn');
+Route::get('/planing', [AdminController::class, 'allPlaning'])->name('planing')->middleware('isLoggedIn');
 Route::get('/plan_view/{id}', [AdminController::class, 'viewPlan'])->name('plan-view')->middleware('isLoggedIn');
 
-Route::get('/articles', [AdminController::class, 'allArticles'])->middleware('isLoggedIn');
-Route::get('/article_add', [AdminController::class, 'addArticle'])->middleware('isLoggedIn');
+Route::get('/articles', [AdminController::class, 'allArticles'])->name('articles')->middleware('isLoggedIn');
+Route::get('/article_add', [AdminController::class, 'addArticle'])->name('article_add')->middleware('isLoggedIn');
 Route::post('/article_register', [AdminController::class, 'RegisterArticle'])->name('article-register')->middleware('isLoggedIn');
 Route::get('/article_edit/{id}', [AdminController::class, 'editArticle'])->name('article-edit')->middleware('isLoggedIn');
 Route::patch('/article_update/{id}', [AdminController::class, 'updateArticle'])->name('article-update')->middleware('isLoggedIn');
@@ -84,6 +84,6 @@ Route::patch('/article_publish/{id}', [AdminController::class, 'publishArticle']
 Route::patch('/article_block/{id}', [AdminController::class, 'blockArticle'])->name('article-block')->middleware('isLoggedIn');
 Route::delete('/article_delete/{id}', [AdminController::class, 'deleteArticle'])->name('article-delete')->middleware('isLoggedIn');
 
-Route::get('/rdvs', [AdminController::class, 'allRdvs'])->middleware('isLoggedIn');
-Route::get('/commandes', [AdminController::class, 'allCommandes'])->middleware('isLoggedIn');
-Route::get('/transactions', [AdminController::class, 'allTransactions'])->middleware('isLoggedIn');
+Route::get('/rdvs', [AdminController::class, 'allRdvs'])->name('rdvs')->middleware('isLoggedIn');
+Route::get('/commandes', [AdminController::class, 'allCommandes'])->name('commandes')->middleware('isLoggedIn');
+Route::get('/transactions', [AdminController::class, 'allTransactions'])->name('transactions')->middleware('isLoggedIn');

@@ -208,7 +208,7 @@
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <li class="breadcrumb-item text-muted">
-                            <a href="/dashbord" class="text-muted text-hover-primary">Tableau de bord</a>
+                            <a href="{{route('dashbord')}}" class="text-muted text-hover-primary">Tableau de bord</a>
                         </li>
                         <li class="breadcrumb-item">
                             <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -218,7 +218,7 @@
                     <!--end::Breadcrumb-->
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="/compte_add" class="btn btn-sm fw-bold btn-primary">Ajouter</a>
+                    <a href="{{route('compte_add')}}" class="btn btn-sm fw-bold btn-primary">Ajouter</a>
                 </div>
                 <!--end::Actions-->
             </div>
@@ -275,14 +275,14 @@
                                             <td>{{$loop->iteration}}</td>
                                             <td class="d-flex align-items-center">
                                                 <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                    <a href="view.html">
+                                                    <a href="#">
                                                         <div class="symbol-label">
                                                             <img src="{{asset('assets/media/avatars/blank.png')}}" alt="Emma Smith" class="w-100" />
                                                         </div>
                                                     </a>
                                                 </div>
                                                 <div class="d-flex flex-column">
-                                                    <a href="view.html" class="text-gray-800 text-hover-primary mb-1">{{$compte->noms}} ({{$compte->username}})</a>
+                                                    <a href="#" class="text-gray-800 text-hover-primary mb-1">{{$compte->noms}} ({{$compte->username}})</a>
                                                     <span>{{$compte->mail}}</span>
                                                 </div>
                                             </td>

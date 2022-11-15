@@ -43,7 +43,7 @@
 			<div class="d-flex flex-column flex-column-fluid flex-lg-row">
 				<div class="d-flex flex-center w-lg-50 pt-15 pt-lg-0 px-10">
 					<div class="d-flex flex-center flex-lg-start flex-column">
-						<a href="index-2.html" class="mb-7">
+						<a href="#" class="mb-7">
 							<img alt="Logo" src="assets/media/logos/nav-logo-white.png" />
 						</a>
 						<h2 class="text-white fw-normal m-0 text-md-center">Veuillez vous connecter pour accéder à votre tableau de bord</h2>

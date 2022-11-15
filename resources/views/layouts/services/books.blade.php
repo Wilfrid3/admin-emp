@@ -7,7 +7,7 @@
     <!--begin::Logo-->
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
         <!--begin::Logo image-->
-        <a href="index-2.html">
+        <a href="#">
             <img alt="Logo" src="{{asset('assets/media/logos/nav-logo.png')}}" class="h-25px app-sidebar-logo-default" />
             <img alt="Logo" src="{{asset('assets/media/logos/nav-logo.png')}}" class="h-20px app-sidebar-logo-minimize" />
         </a>
@@ -208,7 +208,7 @@
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <li class="breadcrumb-item text-muted">
-                            <a href="/dashbord" class="text-muted text-hover-primary">Tableau de bord</a>
+                            <a href="{{route('dashbord')}}" class="text-muted text-hover-primary">Tableau de bord</a>
                         </li>
                         <li class="breadcrumb-item">
                             <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -287,14 +287,14 @@
                                             </td>
                                             <td class="d-flex align-items-center">
                                                 <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                    <a href="view.html">
+                                                    <a href="#">
                                                         <div class="symbol-label">
                                                             <img src="{{asset('assets/media/avatars/blank.png')}}" alt="Emma Smith" class="w-100" />
                                                         </div>
                                                     </a>
                                                 </div>
                                                 <div class="d-flex flex-column">
-                                                    <a href="view.html" class="text-gray-800 text-hover-primary mb-1">{{$book->name}}</a>
+                                                    <a href="#" class="text-gray-800 text-hover-primary mb-1">{{$book->name}}</a>
                                                     <span>{{$book->email}}</span>
                                                 </div>
                                             </td>

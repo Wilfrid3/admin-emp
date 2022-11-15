@@ -208,7 +208,7 @@
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <li class="breadcrumb-item text-muted">
-                            <a href="/dashbord" class="text-muted text-hover-primary">Tableau de bord</a>
+                            <a href="{{route('dashbord')}}" class="text-muted text-hover-primary">Tableau de bord</a>
                         </li>
                         <li class="breadcrumb-item">
                             <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -218,7 +218,7 @@
                     <!--end::Breadcrumb-->
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="/article_add" class="btn btn-sm fw-bold btn-primary">Ajouter</a>
+                    <a href="{{route('article_add')}}" class="btn btn-sm fw-bold btn-primary">Ajouter</a>
                 </div>
                 <!--end::Actions-->
             </div>

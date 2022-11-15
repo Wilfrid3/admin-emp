@@ -208,7 +208,7 @@
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <li class="breadcrumb-item text-muted">
-                            <a href="/profil" class="text-muted text-hover-primary">Profil</a>
+                            <a href="{{route('profil')}}" class="text-muted text-hover-primary">Profil</a>
                         </li>
                         <li class="breadcrumb-item">
                             <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -239,7 +239,7 @@
                                         <span class="text-gray-400 mt-1 fw-semibold fs-6">Rendez-vous récements ajoutés</span>
                                     </h3>
                                     <div class="card-toolbar">
-                                        <a href="/rdvs" class="btn btn-sm btn-light">Voir +</a>
+                                        <a href="{{route('rdvs')}}" class="btn btn-sm btn-light">Voir +</a>
                                     </div>
                                 </div>
                                 <div class="card-body pt-6">
@@ -275,14 +275,14 @@
                                                             </td>
                                                             <td class="d-flex align-items-center">
                                                                 <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                                    <a href="view.html">
+                                                                    <a href="#">
                                                                         <div class="symbol-label">
                                                                             <img src="{{asset('assets/media/avatars/blank.png')}}" alt="Emma Smith" class="w-100" />
                                                                         </div>
                                                                     </a>
                                                                 </div>
                                                                 <div class="d-flex flex-column">
-                                                                    <a href="view.html" class="text-gray-800 text-hover-primary mb-1">{{$book->name}}</a>
+                                                                    <a href="#" class="text-gray-800 text-hover-primary mb-1">{{$book->name}}</a>
                                                                     <span>{{$book->email}}</span>
                                                                 </div>
                                                             </td>
@@ -312,7 +312,7 @@
                                         <span class="text-gray-400 mt-1 fw-semibold fs-6">Commandes récements ajoutées</span>
                                     </h3>
                                     <div class="card-toolbar">
-                                        <a href="/commandes" class="btn btn-sm btn-light">Voir +</a>
+                                        <a href="{{route('commandes')}}" class="btn btn-sm btn-light">Voir +</a>
                                     </div>
                                 </div>
                                 <div class="card-body pt-6">
@@ -349,14 +349,14 @@
                                                             </td>
                                                             <td class="d-flex align-items-center">
                                                                 <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                                    <a href="view.html">
+                                                                    <a href="#">
                                                                         <div class="symbol-label">
                                                                             <img src="{{asset('assets/media/avatars/blank.png')}}" alt="Emma Smith" class="w-100" />
                                                                         </div>
                                                                     </a>
                                                                 </div>
                                                                 <div class="d-flex flex-column">
-                                                                    <a href="view.html" class="text-gray-800 text-hover-primary mb-1">{{$order->name}}</a>
+                                                                    <a href="#" class="text-gray-800 text-hover-primary mb-1">{{$order->name}}</a>
                                                                     <span>{{$order->email}}</span>
                                                                 </div>
                                                             </td>
@@ -386,7 +386,7 @@
                                         <span class="text-gray-400 mt-1 fw-semibold fs-6">Transactions récements ajoutées</span>
                                     </h3>
                                     <div class="card-toolbar">
-                                        <a href="/transactions" class="btn btn-sm btn-light">Voir +</a>
+                                        <a href="{{route('transactions')}}" class="btn btn-sm btn-light">Voir +</a>
                                     </div>
                                 </div>
                                 <div class="card-body pt-6">
@@ -422,14 +422,14 @@
                                                             </td>
                                                             <td class="d-flex align-items-center">
                                                                 <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                                    <a href="view.html">
+                                                                    <a href="#">
                                                                         <div class="symbol-label">
                                                                             <img src="{{asset('assets/media/avatars/blank.png')}}" alt="Emma Smith" class="w-100" />
                                                                         </div>
                                                                     </a>
                                                                 </div>
                                                                 <div class="d-flex flex-column">
-                                                                    <a href="view.html" class="text-gray-800 text-hover-primary mb-1">{{$transaction->name}}</a>
+                                                                    <a href="#" class="text-gray-800 text-hover-primary mb-1">{{$transaction->name}}</a>
                                                                     <span>{{$transaction->email}}</span>
                                                                 </div>
                                                             </td>
@@ -458,9 +458,9 @@
                                     </h3>
                                     <div class="card-toolbar">
                                         @if (count($services) <= 0)
-                                            <a href="/service_add" class="btn btn-sm btn-light">Ajourer</a>
+                                            <a href="{{route('service_add')}}" class="btn btn-sm btn-light">Ajourer</a>
                                         @else
-                                            <a href="/services" class="btn btn-sm btn-light">Voir +</a>
+                                            <a href="{{route('services')}}" class="btn btn-sm btn-light">Voir +</a>
                                         @endif
                                     </div>
                                 </div>
@@ -525,9 +525,9 @@
                                     </h3>
                                     <div class="card-toolbar">
                                         @if (count($articles) <= 0)
-                                            <a href="/article_add" class="btn btn-sm btn-light">Ajourer</a>
+                                            <a href="{{route('article_add')}}" class="btn btn-sm btn-light">Ajourer</a>
                                         @else
-                                            <a href="/articles" class="btn btn-sm btn-light">Voir +</a>
+                                            <a href="{{route('articles')}}" class="btn btn-sm btn-light">Voir +</a>
                                         @endif
                                     </div>
                                 </div>

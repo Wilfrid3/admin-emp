@@ -319,7 +319,7 @@
                                                         <div class="menu-item px-3">
                                                             <a href="{{ route('service-edit', ['id'=>$service->id]) }}" class="menu-link px-3">Modifier</a>
                                                         </div>
-                                                        <div class="menu-item px-3">
+                                                        {{-- <div class="menu-item px-3">
                                                             <form action="{{ route('service-delete', ['id'=>$service->id]) }}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -327,7 +327,7 @@
                                                                     Supprimer
                                                                 </button>
                                                             </form>
-                                                        </div>
+                                                        </div> --}}
                                                         <div class="menu-item px-3">
                                                             <form action="{{ route('service-publish', ['id'=>$service->id]) }}" method="post">
                                                                 @csrf

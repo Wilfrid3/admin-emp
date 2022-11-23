@@ -310,7 +310,7 @@
                                                         <div class="menu-item px-3">
                                                             <a href="{{ route('article-edit', ['id'=>$article->id]) }}" class="menu-link px-3">Modifier</a>
                                                         </div>
-                                                        <div class="menu-item px-3">
+                                                        {{-- <div class="menu-item px-3">
                                                             <form action="{{ route('article-delete', ['id'=>$article->id]) }}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -318,7 +318,7 @@
                                                                     Supprimer
                                                                 </button>
                                                             </form>
-                                                        </div>
+                                                        </div> --}}
                                                         <div class="menu-item px-3">
                                                             <form action="{{ route('article-publish', ['id'=>$article->id]) }}" method="post">
                                                                 @csrf

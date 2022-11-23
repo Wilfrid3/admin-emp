@@ -50,7 +50,7 @@ class AdminController extends Controller
     public function RegisterService(Request $request)
     {
         $request->validate([
-            'lienImg'=>'required|image|mimes:jpg,png,jpeg|max:2048',
+            'lienImg'=>'required|image|mimes:jpg,png,jpeg|max:10000',
             'libelle'=>'required|unique:services,libelle',
             'description'=>'required',
             'prix'=>'required',

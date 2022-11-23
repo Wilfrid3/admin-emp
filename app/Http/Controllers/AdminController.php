@@ -109,8 +109,8 @@ class AdminController extends Controller
     public function updateService(Request $request, $id)
     {
         $request->validate([
-            'lienImg'=>'image|mimes:jpg,png,jpeg|max:2048',
-            'libelle'=>'required|unique:services,libelle,'.$id,
+            'lienImg'=>'image|mimes:jpg,png,jpeg|max:10000',
+            'libelle'=>'required|string,',
             'description'=>'required',
             'prix'=>'required',
             'oldPrix'=>'required',
@@ -424,8 +424,8 @@ class AdminController extends Controller
     public function RegisterArticle(Request $request)
     {
         $request->validate([
-            'lienImg'=>'required|image|mimes:jpg,png,jpeg|max:2048',
-            'libelle'=>'required|unique:services,libelle',
+            'lienImg'=>'required|image|mimes:jpg,png,jpeg|max:10000',
+            'libelle'=>'required|string',
             'description'=>'required',
             'prix'=>'required',
             'oldPrix'=>'required',
@@ -482,8 +482,8 @@ class AdminController extends Controller
     public function updateArticle(Request $request, $id)
     {
         $request->validate([
-            'lienImg'=>'image|mimes:jpg,png,jpeg|max:2048',
-            'libelle'=>'required|unique:services,libelle,'.$id,
+            'lienImg'=>'image|mimes:jpg,png,jpeg|max:10000',
+            'libelle'=>'required|string,',
             'description'=>'required',
             'prix'=>'required',
             'oldPrix'=>'required',

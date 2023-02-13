@@ -483,7 +483,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'lienImg'=>'image|mimes:jpg,png,jpeg|max:10000',
-            'libelle'=>'required|string,',
+            'libelle'=>'required|string',
             'description'=>'required',
             'prix'=>'required',
             'oldPrix'=>'required',

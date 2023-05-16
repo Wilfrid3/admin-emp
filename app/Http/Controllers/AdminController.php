@@ -41,6 +41,9 @@ class AdminController extends Controller
             ["id" => "Forfait Mariage Standard", "libelle"=>"Forfait Mariage Standard"],
             ["id" => "Forfait Mariage coiffure et maquillage", "libelle"=>"Forfait Mariage coiffure et maquillage"],
             ["id" => "Forfait Week-end", "libelle"=>"Forfait Week-end"],
+            ["id" => "Maquillage Simple", "libelle"=>"Maquillage Simple"],
+            ["id" => "Maquillage Sophistique", "libelle"=>"Maquillage Sophistique"],
+            ["id" => "Maquillage Sophistique Cut Crease", "libelle"=>"Maquillage Sophistique Cut Crease"],
         );
         if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
@@ -105,6 +108,9 @@ class AdminController extends Controller
             ["id" => "Forfait Mariage Standard", "libelle"=>"Forfait Mariage Standard"],
             ["id" => "Forfait Mariage coiffure et maquillage", "libelle"=>"Forfait Mariage coiffure et maquillage"],
             ["id" => "Forfait Week-end", "libelle"=>"Forfait Week-end"],
+            ["id" => "Maquillage Simple", "libelle"=>"Maquillage Simple"],
+            ["id" => "Maquillage Sophistique", "libelle"=>"Maquillage Sophistique"],
+            ["id" => "Maquillage Sophistique Cut Crease", "libelle"=>"Maquillage Sophistique Cut Crease"],
         );
         if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();

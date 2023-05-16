@@ -262,6 +262,7 @@
                                         <th>N°</th>
                                         <th class="min-w-125px">Service</th>
                                         <th class="min-w-125px">Type service</th>
+                                        <th class="min-w-125px">Sous-Type service</th>
                                         <th class="">Durée</th>
                                         <th class="">Prix</th>
                                         <th class="">Etat</th>
@@ -285,6 +286,7 @@
                                                 </div>
                                             </td>
                                             <td>{{$service->type}}</td>
+                                            <td>{{$service->soustype}}</td>
                                             <td>{{$service->duree}}</td>
                                             <td>{{$service->prix}} €</td>
                                             <td>
@@ -348,6 +350,15 @@
                                                             </form>
                                                         </div>
                                                     @endif
+                                                    <div class="menu-item px-3">
+                                                        <form action="{{ route('service-edit', ['id'=>$service->id]) }}" method="get">
+                                                            @csrf
+                                                            @method('GET')
+                                                            <button type="submit" class="btn menu-link px-3 w-100">
+                                                                Modifier
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>

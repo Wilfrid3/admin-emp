@@ -23,13 +23,13 @@ class AdminController extends Controller
     public function allServices()
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
-            $services = Service::select('services.id', 'services.libelle', 'services.description', 'services.prix', 'services.oldPrix', 'services.duree', 'services.remise', 'services.lienImg', 'services.etat', 'services.idTypeservice', 'services.created_at', 'typeservices.libelle as type')
-                                ->join('typeservices', 'typeservices.id', '=', 'services.idTypeservice')
-                                ->orderBy('created_at', 'desc')
-                                ->get();
+            $services = Service::select('services.id', 'services.libelle', 'services.soustype as soustype', 'services.description', 'services.prix', 'services.oldPrix', 'services.duree', 'services.remise', 'services.lienImg', 'services.etat', 'services.idTypeservice', 'services.created_at', 'typeservices.libelle as type')
+                ->join('typeservices', 'typeservices.id', '=', 'services.idTypeservice')
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         return view('layouts.services.services', compact('data', 'typeuser', 'services'));
     }
@@ -37,34 +37,40 @@ class AdminController extends Controller
     public function addService()
     {
         $data = array();
-        if(Session::has('accountid')){
+        $soustypes = array(
+            ["id" => "Forfait Mariage Standard", "libelle"=>"Forfait Mariage Standard"],
+            ["id" => "Forfait Mariage coiffure et maquillage", "libelle"=>"Forfait Mariage coiffure et maquillage"],
+            ["id" => "Forfait Week-end", "libelle"=>"Forfait Week-end"],
+        );
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $typeservices = DB::table('typeservices')
-                            ->select('id', 'libelle')
-                            ->get();
+                ->select('id', 'libelle')
+                ->get();
         }
-        return view('layouts.services.add_service', compact('data', 'typeuser', 'typeservices'));
+        return view('layouts.services.add_service', compact('data', 'typeuser', 'typeservices', 'soustypes'));
     }
 
     public function RegisterService(Request $request)
     {
         $request->validate([
-            'lienImg'=>'required|image|mimes:jpg,png,jpeg|max:10000',
-            'libelle'=>'required|string',
-            'description'=>'required',
-            'prix'=>'required',
-            'oldPrix'=>'required',
-            'duree'=>'required',
-            'idTypeservice'=>'required',
+            'lienImg' => 'required|image|mimes:jpg,png,jpeg|max:10000',
+            'libelle' => 'required|string',
+            'description' => 'required',
+            'soustype' => 'nullable',
+            'prix' => 'required',
+            'oldPrix' => 'required',
+            'duree' => 'required',
+            'idTypeservice' => 'required',
         ]);
-        
+
         if ($request->etat == null) {
             $request->etat = "1";
         }
 
         $servicepath = null;
-        if($request->file('lienImg') != null){
+        if ($request->file('lienImg') != null) {
             $request->file('lienImg')->store('public/servicesImg');
             $servicepath = $request->file('lienImg')->store('servicesImg');
         }
@@ -74,6 +80,7 @@ class AdminController extends Controller
         $service->idCompte = $request->idCompte;
         $service->idTypeservice = $request->idTypeservice;
         $service->libelle = $request->libelle;
+        $service->soustype = $request->soustype;
         $service->description = $request->description;
         $service->prix = $request->prix;
         $service->oldPrix = $request->oldPrix;
@@ -89,37 +96,42 @@ class AdminController extends Controller
         } else {
             return back()->with('fail', 'Echec de création du service!');
         }
-        
     }
 
     public function editservice($id)
     {
         $data = array();
-        if(Session::has('accountid')){
+        $soustypes = array(
+            ["id" => "Forfait Mariage Standard", "libelle"=>"Forfait Mariage Standard"],
+            ["id" => "Forfait Mariage coiffure et maquillage", "libelle"=>"Forfait Mariage coiffure et maquillage"],
+            ["id" => "Forfait Week-end", "libelle"=>"Forfait Week-end"],
+        );
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $typeservices = DB::table('typeservices')
-                            ->select('id', 'libelle')
-                            ->get();
+                ->select('id', 'libelle')
+                ->get();
             $service = Service::findOrFail($id);
         }
-        return view('layouts.services.edit_service', compact('data', 'typeuser', 'typeservices',  'service'));
+        return view('layouts.services.edit_service', compact('data', 'typeuser', 'typeservices',  'service', 'soustypes'));
     }
 
     public function updateService(Request $request, $id)
     {
         $request->validate([
-            'lienImg'=>'image|mimes:jpg,png,jpeg|max:10000',
-            'libelle'=>'required|string',
-            'description'=>'required',
-            'prix'=>'required',
-            'oldPrix'=>'required',
-            'duree'=>'required',
-            'idTypeservice'=>'required',
+            'lienImg' => 'image|mimes:jpg,png,jpeg|max:10000',
+            'libelle' => 'required|string',
+            'description' => 'required',
+            'soustype' => 'nullable',
+            'prix' => 'required',
+            'oldPrix' => 'required',
+            'duree' => 'required',
+            'idTypeservice' => 'required',
         ]);
 
         $servicepath = $request->old_lienImg;
-        if($request->file('lienImg') != null){
+        if ($request->file('lienImg') != null) {
             $request->file('lienImg')->store('public/servicesImg');
             $servicepath = $request->file('lienImg')->store('servicesImg');
         }
@@ -128,6 +140,7 @@ class AdminController extends Controller
 
         $service->idTypeservice = $request->idTypeservice;
         $service->libelle = $request->libelle;
+        $service->soustype = $request->soustype;
         $service->description = $request->description;
         $service->prix = $request->prix;
         $service->oldPrix = $request->oldPrix;
@@ -152,9 +165,9 @@ class AdminController extends Controller
 
         $res = $service->save();
 
-        if($res){
+        if ($res) {
             return back()->with('success', 'Service publié avec succès!');
-        }else{
+        } else {
             return back()->with('fail', 'Echec de publication du service!');
         }
     }
@@ -167,9 +180,9 @@ class AdminController extends Controller
 
         $res = $service->save();
 
-        if($res){
+        if ($res) {
             return back()->with('success', 'Service suspendu avec succès!');
-        }else{
+        } else {
             return back()->with('fail', 'Echec de suspention du service!');
         }
     }
@@ -179,27 +192,27 @@ class AdminController extends Controller
         // $service = Service::find($id);
         $plans = array();
         $plans = Planing::where('idService', '=', $id)->get();
-        if(count($plans) != 0){
-            for ($i=0; $i < count($plans); $i++) { 
+        if (count($plans) != 0) {
+            for ($i = 0; $i < count($plans); $i++) {
                 Horaire::where('idPlaning', '=', $plans[$i]->id)->delete();
             }
 
             $resdelete = Planing::where('idService', '=', $id)->delete();
             if ($resdelete) {
                 $res = Service::find($id)->delete();
-    
-                if($res){
+
+                if ($res) {
                     return back()->with('success', 'Suppression du service réussie!');
-                }else{
+                } else {
                     return back()->with('fail', 'Echec de suppression du service!');
                 }
             }
-        } else{
+        } else {
             $res = Service::find($id)->delete();
-    
-            if($res){
+
+            if ($res) {
                 return back()->with('success', 'Suppression du service réussie!');
-            }else{
+            } else {
                 return back()->with('fail', 'Echec de suppression du service!');
             }
         }
@@ -208,13 +221,13 @@ class AdminController extends Controller
     public function planService($id)
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $plans = Planing::select('planings.id', 'planings.datePlaning', 'planings.idService', 'planings.created_at')
-                                ->where('planings.idService', '=', $id)
-                                ->orderBy('created_at', 'desc')
-                                ->get();
+                ->where('planings.idService', '=', $id)
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         return view('layouts.services.plans_service', compact('data', 'typeuser', 'plans', 'id'));
     }
@@ -222,7 +235,7 @@ class AdminController extends Controller
     public function addPlan($id)
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
         }
@@ -232,7 +245,7 @@ class AdminController extends Controller
     public function RegisterPlan(Request $request)
     {
         $request->validate([
-            'datePlaning'=>'required',
+            'datePlaning' => 'required',
         ]);
         $idservice = $request->idService;
 
@@ -246,7 +259,7 @@ class AdminController extends Controller
         $idplan = $plan->id;
 
         if ($res) {
-            return redirect('hm_plan_serv_add/'.$idservice.'/'.$idplan)->with('success', 'Ajout du planing réussie!');
+            return redirect('hm_plan_serv_add/' . $idservice . '/' . $idplan)->with('success', 'Ajout du planing réussie!');
         } else {
             return back()->with('fail', 'Echec d`ajout du planing');
         }
@@ -255,7 +268,7 @@ class AdminController extends Controller
     public function addHorairePlan($idserv, $id)
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
         }
@@ -265,8 +278,8 @@ class AdminController extends Controller
     public function RegisterHorairePlan(Request $request)
     {
         $request->validate([
-            'heureDeb'=>'required',
-            'heureFin'=>'required',
+            'heureDeb' => 'required',
+            'heureFin' => 'required',
         ]);
 
         $horaire = new Horaire();
@@ -283,19 +296,18 @@ class AdminController extends Controller
         } else {
             return back()->with('fail', 'Echec d`ajout de l`horaire');
         }
-
     }
 
     public function horairePlanService($id, $idserv)
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $horaires = Horaire::select('horaires.id', 'horaires.heureDeb', 'horaires.heureFin', 'horaires.idPlaning', 'horaires.created_at')
-                                ->where('horaires.idPlaning', '=', $id)
-                                ->orderBy('created_at', 'desc')
-                                ->get();
+                ->where('horaires.idPlaning', '=', $id)
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         return view('layouts.services.h_plan_service', compact('data', 'typeuser', 'horaires', 'id', 'idserv'));
     }
@@ -304,9 +316,9 @@ class AdminController extends Controller
     {
         $res = Horaire::find($id)->delete();
 
-        if($res){
+        if ($res) {
             return back()->with('success', 'Horaire supprimé!');
-        }else{
+        } else {
             return back()->with('fail', 'Echec de suppression de l`horaire!');
         }
     }
@@ -314,8 +326,8 @@ class AdminController extends Controller
     public function RegisterHoraire(Request $request)
     {
         $request->validate([
-            'heureDeb'=>'required',
-            'heureFin'=>'required',
+            'heureDeb' => 'required',
+            'heureFin' => 'required',
         ]);
 
         $horaire = new Horaire();
@@ -341,39 +353,38 @@ class AdminController extends Controller
 
         if (count($horaires) != 0) {
             $resdelete = Horaire::where('idPlaning', '=', $id)->delete();
-        
+
             if ($resdelete) {
                 $res = Planing::find($id)->delete();
-    
-                if($res){
+
+                if ($res) {
                     return back()->with('success', 'Planification supprimé!');
-                }else{
+                } else {
                     return back()->with('fail', 'Echec de suppression de la planification!');
                 }
             }
-        }else{
+        } else {
             $res = Planing::find($id)->delete();
-    
-            if($res){
+
+            if ($res) {
                 return back()->with('success', 'Planification supprimé!');
-            }else{
+            } else {
                 return back()->with('fail', 'Echec de suppression de la planification!');
             }
         }
-        
     }
 
     public function allPlaning()
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $plans = Planing::select('planings.id', 'planings.idService', 'planings.datePlaning', 'planings.created_at', 'services.id as idserv', 'services.libelle', 'services.prix', 'services.duree', 'services.lienImg', 'services.etat', 'services.idTypeservice', 'services.created_at', 'typeservices.libelle as type')
-                                ->join('services', 'services.id', '=', 'planings.idService')
-                                ->join('typeservices', 'typeservices.id', '=', 'services.idTypeservice')
-                                ->orderBy('datePlaning', 'asc')
-                                ->get();
+                ->join('services', 'services.id', '=', 'planings.idService')
+                ->join('typeservices', 'typeservices.id', '=', 'services.idTypeservice')
+                ->orderBy('datePlaning', 'asc')
+                ->get();
         }
         return view('layouts.services.planings', compact('data', 'typeuser', 'plans'));
     }
@@ -381,13 +392,13 @@ class AdminController extends Controller
     public function viewPlan($id)
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $plan = Planing::findOrFail($id);
             $service = Service::findOrFail($plan->idService);
             $typeservice = Typeservice::findOrFail($service->idTypeservice);
-            
+
             $horaires = array();
             $horaires = Horaire::where('idPlaning', '=', $id)->get();
         }
@@ -397,13 +408,13 @@ class AdminController extends Controller
     public function allArticles()
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
-            $articles = Article::select('articles.id', 'articles.libelle', 'articles.description', 'articles.prix', 'articles.oldPrix', 'articles.quantite', 'articles.remise', 'articles.lienImg', 'articles.etat', 'articles.idTypearticle', 'articles.created_at', 'typearticles.libelle as type')
-                                ->join('typearticles', 'typearticles.id', '=', 'articles.idTypearticle')
-                                ->orderBy('created_at', 'desc')
-                                ->get();
+            $articles = Article::select('articles.id', 'articles.libelle', 'articles.description', 'articles.prix', 'articles.oldPrix', 'articles.quantite', 'articles.remise', 'articles.lienImg', 'articles.etat', 'articles.idTypearticle', 'articles.created_at', 'typearticles.libelle as type', 'articles.taille as taille')
+                ->join('typearticles', 'typearticles.id', '=', 'articles.idTypearticle')
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         return view('layouts.articles.articles', compact('data', 'typeuser', 'articles'));
     }
@@ -411,34 +422,43 @@ class AdminController extends Controller
     public function addArticle()
     {
         $data = array();
-        if(Session::has('accountid')){
+        $tailles = array(
+            ["id" => "10", "libelle"=>"10"],
+            ["id" => "20", "libelle"=>"20"],
+            ["id" => "30", "libelle"=>"30"],
+            ["id" => "40", "libelle"=>"40"],
+            ["id" => "50", "libelle"=>"50"],
+            ["id" => "60", "libelle"=>"60"],
+        );
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $typearticles = DB::table('typearticles')
-                            ->select('id', 'libelle')
-                            ->get();
+                ->select('id', 'libelle')
+                ->get();
         }
-        return view('layouts.articles.add_article', compact('data', 'typeuser', 'typearticles'));
+        return view('layouts.articles.add_article', compact('data', 'typeuser', 'typearticles', 'tailles'));
     }
 
     public function RegisterArticle(Request $request)
     {
         $request->validate([
-            'lienImg'=>'required|image|mimes:jpg,png,jpeg|max:10000',
-            'libelle'=>'required|string',
-            'description'=>'required',
-            'prix'=>'required',
-            'oldPrix'=>'required',
-            'quantite'=>'required',
-            'idTypearticle'=>'required',
+            'lienImg' => 'required|image|mimes:jpg,png,jpeg|max:10000',
+            'libelle' => 'required|string',
+            'description' => 'required',
+            'prix' => 'required',
+            'taille' => 'required',
+            'oldPrix' => 'required',
+            'quantite' => 'required',
+            'idTypearticle' => 'required',
         ]);
-        
+
         if ($request->etat == null) {
             $request->etat = "1";
         }
 
         $articlepath = null;
-        if($request->file('lienImg') != null){
+        if ($request->file('lienImg') != null) {
             $request->file('lienImg')->store('public/articlesImg');
             $articlepath = $request->file('lienImg')->store('articlesImg');
         }
@@ -448,6 +468,7 @@ class AdminController extends Controller
         $article->idCompte = $request->idCompte;
         $article->idTypearticle = $request->idTypearticle;
         $article->libelle = $request->libelle;
+        $article->taille = $request->taille;
         $article->description = $request->description;
         $article->prix = $request->prix;
         $article->oldPrix = $request->oldPrix;
@@ -468,31 +489,40 @@ class AdminController extends Controller
     public function editArticle($id)
     {
         $data = array();
-        if(Session::has('accountid')){
+        $tailles = array(
+            ["id" => "10", "libelle"=>"10"],
+            ["id" => "20", "libelle"=>"20"],
+            ["id" => "30", "libelle"=>"30"],
+            ["id" => "40", "libelle"=>"40"],
+            ["id" => "50", "libelle"=>"50"],
+            ["id" => "60", "libelle"=>"60"],
+        );
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $typearticles = DB::table('typearticles')
-                            ->select('id', 'libelle')
-                            ->get();
+                ->select('id', 'libelle')
+                ->get();
             $article = Article::findOrFail($id);
         }
-        return view('layouts.articles.edit_article', compact('data', 'typeuser', 'typearticles',  'article'));
+        return view('layouts.articles.edit_article', compact('data', 'typeuser', 'typearticles',  'article', 'tailles'));
     }
 
     public function updateArticle(Request $request, $id)
     {
         $request->validate([
-            'lienImg'=>'image|mimes:jpg,png,jpeg|max:10000',
-            'libelle'=>'required|string',
-            'description'=>'required',
-            'prix'=>'required',
-            'oldPrix'=>'required',
-            'quantite'=>'required',
-            'idTypearticle'=>'required',
+            'lienImg' => 'image|mimes:jpg,png,jpeg|max:10000',
+            'libelle' => 'required|string',
+            'description' => 'required',
+            'taille' => 'required',
+            'prix' => 'required',
+            'oldPrix' => 'required',
+            'quantite' => 'required',
+            'idTypearticle' => 'required',
         ]);
 
         $articlepath = $request->old_lienImg;
-        if($request->file('lienImg') != null){
+        if ($request->file('lienImg') != null) {
             $request->file('lienImg')->store('public/articlesImg');
             $articlepath = $request->file('lienImg')->store('articlesImg');
         }
@@ -501,6 +531,7 @@ class AdminController extends Controller
 
         $article->idTypearticle = $request->idTypearticle;
         $article->libelle = $request->libelle;
+        $article->taille = $request->taille;
         $article->description = $request->description;
         $article->prix = $request->prix;
         $article->oldPrix = $request->oldPrix;
@@ -525,9 +556,9 @@ class AdminController extends Controller
 
         $res = $article->save();
 
-        if($res){
+        if ($res) {
             return back()->with('success', 'article publié avec succès!');
-        }else{
+        } else {
             return back()->with('fail', 'Echec de publication de l`article!');
         }
     }
@@ -540,9 +571,9 @@ class AdminController extends Controller
 
         $res = $article->save();
 
-        if($res){
+        if ($res) {
             return back()->with('success', 'article suspendu avec succès!');
-        }else{
+        } else {
             return back()->with('fail', 'Echec de suspention de l`article!');
         }
     }
@@ -551,9 +582,9 @@ class AdminController extends Controller
     {
         $res = Article::find($id)->delete();
 
-        if($res){
+        if ($res) {
             return back()->with('success', 'Article supprimé avec succès!');
-        }else{
+        } else {
             return back()->with('fail', 'Echec de suppression de l`article!');
         }
     }
@@ -561,16 +592,16 @@ class AdminController extends Controller
     public function allRdvs()
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $books = Book::select('books.id', 'books.name', 'books.email', 'books.idhoraire', 'books.etat', 'books.idservice', 'books.created_at', 'services.id as idserv', 'services.idTypeservice as idtypeserv', 'services.libelle as libserv', 'services.prix as prixserv', 'services.duree as dureeserv', 'services.lienImg as lienImgserv', 'typeservices.libelle as typeserv', 'horaires.id as idhor', 'horaires.idPlaning', 'horaires.heureDeb', 'horaires.heureFin', 'planings.id as idplan', 'planings.datePlaning as daterdv')
-                                ->join('services', 'services.id', '=', 'books.idservice')
-                                ->join('horaires', 'horaires.id', '=', 'books.idhoraire')
-                                ->join('typeservices', 'typeservices.id', '=', 'services.idTypeservice')
-                                ->join('planings', 'planings.id', '=', 'horaires.idPlaning')
-                                ->orderBy('created_at', 'desc')
-                                ->get();
+                ->join('services', 'services.id', '=', 'books.idservice')
+                ->join('horaires', 'horaires.id', '=', 'books.idhoraire')
+                ->join('typeservices', 'typeservices.id', '=', 'services.idTypeservice')
+                ->join('planings', 'planings.id', '=', 'horaires.idPlaning')
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         return view('layouts.services.books', compact('data', 'typeuser', 'books'));
     }
@@ -578,14 +609,14 @@ class AdminController extends Controller
     public function allCommandes()
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $orders = Order::select('orders.id', 'orders.name', 'orders.email', 'orders.address', 'orders.ref', 'orders.etat', 'orders.idarticle', 'orders.qte', 'orders.created_at', 'articles.id as idarti', 'articles.idTypearticle as idtypearti', 'articles.libelle as libarti', 'articles.prix as prixarti', 'articles.lienImg as lienImgarti', 'typearticles.libelle as typearti')
-                                ->join('articles', 'articles.id', '=', 'orders.idarticle')
-                                ->join('typearticles', 'typearticles.id', '=', 'articles.idTypearticle')
-                                ->orderBy('created_at', 'desc')
-                                ->get();
+                ->join('articles', 'articles.id', '=', 'orders.idarticle')
+                ->join('typearticles', 'typearticles.id', '=', 'articles.idTypearticle')
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         return view('layouts.articles.orders', compact('data', 'typeuser', 'orders'));
     }
@@ -593,15 +624,15 @@ class AdminController extends Controller
     public function allTransactions()
     {
         $data = array();
-        if(Session::has('accountid')){
+        if (Session::has('accountid')) {
             $data = Compte::where('id', '=', Session::get('accountid'))->first();
             $typeuser = Typecompte::findOrFail($data->idTypecompte);
             $transactions = Transaction::select('transactions.id', 'transactions.ref', 'transactions.idbook', 'transactions.etat', 'transactions.created_at', 'books.id as bookid', 'books.name', 'books.email', 'books.idservice', 'services.id as idserv', 'services.idTypeservice as idtypeserv', 'services.libelle as libserv', 'services.prix as prixserv', 'services.duree as dureeserv', 'services.lienImg as lienImgserv', 'typeservices.libelle as typeserv')
-                                ->join('books', 'books.id', '=', 'transactions.idbook')
-                                ->join('services', 'services.id', '=', 'books.idservice')
-                                ->join('typeservices', 'typeservices.id', '=', 'services.idTypeservice')
-                                ->orderBy('created_at', 'desc')
-                                ->get();
+                ->join('books', 'books.id', '=', 'transactions.idbook')
+                ->join('services', 'services.id', '=', 'books.idservice')
+                ->join('typeservices', 'typeservices.id', '=', 'services.idTypeservice')
+                ->orderBy('created_at', 'desc')
+                ->get();
         }
         return view('layouts.services.transactions', compact('data', 'typeuser', 'transactions'));
     }

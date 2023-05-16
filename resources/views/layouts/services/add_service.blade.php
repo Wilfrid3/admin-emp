@@ -283,6 +283,23 @@
                                 <div class="text-muted fs-7 mb-7">Type de service obligatoire.</div>
                             </div>
                         </div>
+                        <div class="card card-flush py-4">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>Sous-Type</h2>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <label class="required form-label">Sous-Type de service</label>
+                                <select class="form-select mb-2" data-control="select2" data-placeholder="-- Selectionnez --" data-allow-clear="true" name="soustype">
+                                    <option></option>
+                                    @foreach ($soustypes as $item)
+                                        <option value="{{$item['id']}}">{{$item['libelle']}}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger">@error('soustype') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
                         <div class="tab-content">
